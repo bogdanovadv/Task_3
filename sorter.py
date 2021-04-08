@@ -29,20 +29,21 @@ def sort(s, d):
                 if not os.path.exists(new_path_file):
                     try:
                         os.makedirs(new_path_file)
-                    except PermissionError as e:
+                    except OSError as e:
                         print("Не удалось создать папку: ", new_path_file)
                 try:
                     shutil.move(path_file, os.path.join(new_path_file, file))
-                except PermissionError as e:
+                except shutil.Error as e:
                     print("Не удалось переместить файл: ", file)
                 if title:
                     new_name = cor_names(f'{title} - {artist} - {album}.mp3')
                     try:
                         os.rename(os.path.join(new_path_file, file), os.path.join(new_path_file, new_name))
                         file = new_name
-                    except PermissionError as e:
+                    except OSError as e:
                         print("Не удалось переименовать файл ", file)
                 print(path_file, " -> ", os.path.join(new_path_file, file))
+                print('Done')
 
 
 def cor_names(text):
