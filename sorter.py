@@ -2,17 +2,19 @@ import click, os, eyed3, shutil, path
 
 
 @click.command()
-@click.option('--s', '--src-dir', default='./', help='Папка с файлами для сортировки')
-@click.option('--d', '--dst-dir', default='./', help='Папка с результатом')
+@click.option('--s', '--src-dir', default='/media/sf_Downloads/Подборка музыки',
+              help='Папка с файлами для сортировки')
+@click.option('--d', '--dst-dir', default='/home/dvb/Загрузки',
+              help='Папка с результатом')
 def sort(s, d):
-    while not os.path.exists(s):
-        s = input("Папка с файлами не существует. Введите другую: ")
-    while not os.path.exists(d):
-        d = input("Папка для результата не существует. Введите другую: ")
+    while not os.path.exists(s) or not os.access(s, os.W_OK):
+        s = input("Папка с файлами не существует или нет прав доступа. Введите другую: ")
+    while not os.path.exists(d) or not os.access(s, os.W_OK):
+        d = input("Папка для результата не существует или нет прав доступа. Введите другую: ")
 
     files = os.listdir(path=s)
     if len(files) == 0:
-        print("Â ïàïêå íåò mp3-ôàéëîâ")
+        print("Не нйдены mp3")
     for file in files:
         path_file = os.path.join(s, file)
         new_path_file = ""
@@ -28,6 +30,7 @@ def sort(s, d):
             if title:
                 file_name = f'{title} - {artist} - {album}.mp3'
                 file_name = cor_names(file_name)
+
                 new_path_file = os.path.join(d, cor_names(artist), cor_names(album))
                 if not os.path.exists(new_path_file):
                     try:
@@ -38,7 +41,7 @@ def sort(s, d):
                     shutil.move(path_file, os.path.join(new_path_file, file_name))
                 except PermissionError as e:
                     print(str(e))
-                print(path_file, " -> ", new_path_file)
+                print(path_file, " -> ", os.path.join(new_path_file, file_name))
 
 
 def cor_names(text):
