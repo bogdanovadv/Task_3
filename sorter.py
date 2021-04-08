@@ -1,5 +1,3 @@
-# -*- coding: CP1251 -*-
-
 import click, os, eyed3, shutil, path
 
 
