@@ -2,10 +2,8 @@ import click, os, eyed3, shutil, path
 
 
 @click.command()
-@click.option('--s', '--src-dir', default='C:/Users/bogdanova_dv/Downloads/Подборка музыки',
-              help='Папка с файлами для сортировки')
-@click.option('--d', '--dst-dir', default='C:/Users/bogdanova_dv/Downloads/Подборка музыки',
-              help='Папка с результатом')
+@click.option('--s', '--src-dir', default='./', help='Папка с файлами для сортировки')
+@click.option('--d', '--dst-dir', default='./', help='Папка с результатом')
 def sort(s, d):
     while not os.path.exists(s):
         s = input("Папка с файлами не существует. Введите другую: ")
