@@ -13,8 +13,6 @@ def sort(s, d):
         d = input("Папка для результата не существует или нет прав доступа. Введите другую: ")
 
     files = os.listdir(path=s)
-    if len(files) == 0:
-        print("Не найдены mp3")
     for file in files:
         path_file = os.path.join(s, file)
         if os.path.splitext(file)[1].lower() != ".mp3":
@@ -43,7 +41,7 @@ def sort(s, d):
                     except OSError as e:
                         print("Не удалось переименовать файл ", file)
                 print(path_file, " -> ", os.path.join(new_path_file, file))
-                print('Done')
+    print('Done')
 
 
 def cor_names(text):
