@@ -2,9 +2,9 @@ import click, os, eyed3, shutil, path
 
 
 @click.command()
-@click.option('--s', '--src-dir', default='/media/sf_Downloads/Подборка музыки',
+@click.option('--s', '--src-dir', default='./',
               help='Папка с файлами для сортировки')
-@click.option('--d', '--dst-dir', default='/home/dvb/Загрузки',
+@click.option('--d', '--dst-dir', default='./',
               help='Папка с результатом')
 def sort(s, d):
     while not os.path.exists(s) or not os.access(s, os.W_OK):
@@ -14,34 +14,35 @@ def sort(s, d):
 
     files = os.listdir(path=s)
     if len(files) == 0:
-        print("Не нйдены mp3")
+        print("Не найдены mp3")
     for file in files:
         path_file = os.path.join(s, file)
-        new_path_file = ""
         if os.path.splitext(file)[1].lower() != ".mp3":
-            # print(path_file, " -> ôàéë íå mp3")
             continue
         audiofile = eyed3.load(path_file)
         if audiofile.tag:
             artist = audiofile.tag.artist
             album = audiofile.tag.album
             title = audiofile.tag.title
-        if artist and album:
-            if title:
-                file_name = f'{title} - {artist} - {album}.mp3'
-                file_name = cor_names(file_name)
-
+            if artist and album:
                 new_path_file = os.path.join(d, cor_names(artist), cor_names(album))
                 if not os.path.exists(new_path_file):
                     try:
                         os.makedirs(new_path_file)
                     except PermissionError as e:
-                        print(str(e))
+                        print("Не удалось создать папку: ", new_path_file)
                 try:
-                    shutil.move(path_file, os.path.join(new_path_file, file_name))
+                    shutil.move(path_file, os.path.join(new_path_file, file))
                 except PermissionError as e:
-                    print(str(e))
-                print(path_file, " -> ", os.path.join(new_path_file, file_name))
+                    print("Не удалось переместить файл: ", file)
+                if title:
+                    new_name = cor_names(f'{title} - {artist} - {album}.mp3')
+                    try:
+                        os.rename(os.path.join(new_path_file, file), os.path.join(new_path_file, new_name))
+                        file = new_name
+                    except PermissionError as e:
+                        print("Не удалось переименовать файл ", file)
+                print(path_file, " -> ", os.path.join(new_path_file, file))
 
 
 def cor_names(text):
