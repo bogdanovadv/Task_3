@@ -4,24 +4,24 @@ import click, os, eyed3, shutil, path
 
 
 @click.command()
-@click.option('--s', '--src-dir', default='C:/Users/bogdanova_dv/Downloads/Ïîäáîðêà ìóçûêè',
-              help='Ïàïêà ñ ôàéëàìè äëÿ ñîðòèðîâêè')
-@click.option('--d', '--dst-dir', default='C:/Users/bogdanova_dv/Downloads/Ïîäáîðêà ìóçûêè',
-              help='Ïàïêà ñ ðåçóëüòàòîì')
+@click.option('--s', '--src-dir', default='C:/Users/bogdanova_dv/Downloads/ÐŸÐ¾Ð´Ð±Ð¾Ñ€ÐºÐ° Ð¼ÑƒÐ·Ñ‹ÐºÐ¸',
+              help='ÐŸÐ°Ð¿ÐºÐ° Ñ Ñ„Ð°Ð¹Ð»Ð°Ð¼Ð¸ Ð´Ð»Ñ ÑÐ¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²ÐºÐ¸')
+@click.option('--d', '--dst-dir', default='C:/Users/bogdanova_dv/Downloads/ÐŸÐ¾Ð´Ð±Ð¾Ñ€ÐºÐ° Ð¼ÑƒÐ·Ñ‹ÐºÐ¸',
+              help='ÐŸÐ°Ð¿ÐºÐ° Ñ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð¾Ð¼')
 def sort(s, d):
     while not os.path.exists(s):
-        s = input("Ïàïêà ñ ôàéëàìè íå ñóùåñòâóåò. Ââåäèòå äðóãóþ: ")
+        s = input("ÐŸÐ°Ð¿ÐºÐ° Ñ Ñ„Ð°Ð¹Ð»Ð°Ð¼Ð¸ Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚. Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð´Ñ€ÑƒÐ³ÑƒÑŽ: ")
     while not os.path.exists(d):
-        d = input("Ïàïêà äëÿ ðåçóëüòàòà íå ñóùåñòâóåò. Ââåäèòå äðóãóþ: ")
+        d = input("ÐŸÐ°Ð¿ÐºÐ° Ð´Ð»Ñ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð° Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚. Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð´Ñ€ÑƒÐ³ÑƒÑŽ: ")
 
     files = os.listdir(path=s)
     if len(files) == 0:
-        print("Â ïàïêå íåò mp3-ôàéëîâ")
+        print("Ã‚ Ã¯Ã Ã¯ÃªÃ¥ Ã­Ã¥Ã² mp3-Ã´Ã Ã©Ã«Ã®Ã¢")
     for file in files:
         path_file = os.path.join(s, file)
         new_path_file = ""
         if os.path.splitext(file)[1].lower() != ".mp3":
-            # print(path_file, " -> ôàéë íå mp3")
+            # print(path_file, " -> Ã´Ã Ã©Ã« Ã­Ã¥ mp3")
             continue
         audiofile = eyed3.load(path_file)
         if audiofile.tag:
